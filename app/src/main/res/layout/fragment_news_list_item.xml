@@ -25,26 +25,29 @@
                 android:layout_weight="1">
 
                 <TextView
+                    android:id="@+id/news_title"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     tools:text="@string/news_title"
                     android:textAppearance="@style/TextAppearance.AppCompat.Title" />
 
                 <TextView
+                    android:id="@+id/news_posted_time"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:paddingTop="20dp"
-                    tools:text="@string/news_section_id" />
+                    tools:text="@string/news_posted_time"
+                    android:textColor="#B4BAC0" />
 
             </LinearLayout>
 
             <TextView
+                android:id="@+id/news_section"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:paddingTop="20dp"
                 android:paddingRight="16dp"
-                tools:text="@string/news_posted_time"
-                android:textColor="#B4BAC0" />
+                tools:text="@string/news_section_id" />
 
         </LinearLayout>
 
