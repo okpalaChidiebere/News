@@ -10,6 +10,7 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
+import android.widget.TextView;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -27,6 +28,9 @@ public class FeaturedNewsFragment extends Fragment implements LoaderManager.Load
 
     private NewsAdapter mAdapter;
 
+    /** TextView that is displayed when the list is empty */
+    private TextView mEmptyStateTextView;
+
     private static final String GUARDIAN_REQUEST_URL =
             "https://content.guardianapis.com/search";
 
@@ -36,10 +40,13 @@ public class FeaturedNewsFragment extends Fragment implements LoaderManager.Load
 
         View rootView = inflater.inflate(R.layout.news_list_item, container, false);
 
+        ListView listView = (ListView) rootView.findViewById(R.id.list);
+
+        mEmptyStateTextView = (TextView) rootView.findViewById(R.id.empty_view);
+        listView.setEmptyView(mEmptyStateTextView);
 
         mAdapter = new NewsAdapter(getActivity(), new ArrayList<News>());
 
-        ListView listView = (ListView) rootView.findViewById(R.id.list);
         listView.setAdapter(mAdapter);
 
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -84,6 +91,8 @@ public class FeaturedNewsFragment extends Fragment implements LoaderManager.Load
     public void onLoadFinished(@NonNull Loader<List<News>> loader, List<News> news) {
 
         Log.i(LOG_TAG, "TEST: OnLoaderFinished. updating listView UI");
+
+        mEmptyStateTextView.setText(R.string.no_news);
 
         // Clear the adapter of previous news data
         mAdapter.clear();

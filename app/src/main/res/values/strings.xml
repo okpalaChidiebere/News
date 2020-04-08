@@ -8,11 +8,14 @@
     <string name="football_category">Football</string>
     <string name="world_category">World</string>
 
-
+    <!-- Used to test adapter and page -->
     <string name="news_posted_time">2 hours</string>
     <string name="news_section_id">australia-news</string>
     <string name="news_title">Info</string>
     <string name="settings_test_string">we out here settings</string>
+
+    <!--  -->
+    <string name="no_news">No News found.</string>
 
 
 </resources>
