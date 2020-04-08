@@ -1,6 +1,9 @@
 package com.example.android.news;
 
+import android.content.Context;
 import android.content.Intent;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
@@ -23,6 +26,9 @@ import androidx.loader.content.Loader;
 public class WorldNewsFragment extends Fragment implements LoaderManager.LoaderCallbacks<List<News>> {
 
     private static final int NEWS_LOADER_ID = 3;
+
+    private static boolean networkAvalaible = false;
+
     private static final String LOG_TAG = WorldNewsFragment.class.getName();
 
     private NewsAdapter mAdapter;
@@ -64,8 +70,20 @@ public class WorldNewsFragment extends Fragment implements LoaderManager.LoaderC
             }
         });
 
+        if (isConnected()) {
+
         LoaderManager loaderManager = LoaderManager.getInstance(this);
         loaderManager.initLoader(NEWS_LOADER_ID, null, this);
+        networkAvalaible = true;
+
+    } else {
+
+        View loadingIndicator = rootView.findViewById(R.id.loading_indicator);
+        loadingIndicator.setVisibility(View.GONE);
+
+        mEmptyStateTextView.setText(R.string.no_internet_connection);
+
+    }
 
         // Inflate the layout for this fragment
         return rootView;
@@ -115,5 +133,13 @@ public class WorldNewsFragment extends Fragment implements LoaderManager.LoaderC
     public void onLoaderReset(@NonNull Loader<List<News>> loader) {
         // Loader reset, so we can clear out our existing data.
         mAdapter.clear();
+    }
+
+    private boolean isConnected() {
+        // Check for connectivity status
+        ConnectivityManager connMgr = (ConnectivityManager) getActivity().
+                getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo activeNetwork = connMgr.getActiveNetworkInfo();
+        return activeNetwork != null && activeNetwork.isConnectedOrConnecting();
     }
 }

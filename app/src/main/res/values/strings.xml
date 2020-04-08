@@ -14,8 +14,10 @@
     <string name="news_title">Info</string>
     <string name="settings_test_string">we out here settings</string>
 
-    <!--  -->
+    <!-- Information for when an empty parse return -->
     <string name="no_news">No News found.</string>
 
+    <!-- Error message when there is no internet connectivity [CHAR LIMIT=NONE] -->
+    <string name="no_internet_connection">bad server response.</string>
 
 </resources>

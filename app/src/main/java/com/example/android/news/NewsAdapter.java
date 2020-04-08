@@ -74,7 +74,7 @@ public class NewsAdapter extends ArrayAdapter<News> {
             Date pasTime = dateFormat.parse(dataDate);
             Date nowTime = new Date();
 
-            long dateDiff = nowTime.getTime() - pasTime.getTime();
+            long dateDiff = Math.abs(nowTime.getTime() - pasTime.getTime());
             //Log.i("pastTime: ",""+dateDiff);
 
             int second = (int) (dateDiff / 1000) % 60 ;
