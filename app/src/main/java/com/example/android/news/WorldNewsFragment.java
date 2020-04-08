@@ -27,6 +27,8 @@ public class WorldNewsFragment extends Fragment implements LoaderManager.LoaderC
 
     private NewsAdapter mAdapter;
 
+    private View rootView;
+
     /** TextView that is displayed when the list is empty */
     private TextView mEmptyStateTextView;
 
@@ -37,7 +39,7 @@ public class WorldNewsFragment extends Fragment implements LoaderManager.LoaderC
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        View rootView = inflater.inflate(R.layout.news_list_item, container, false);
+        rootView = inflater.inflate(R.layout.news_list_item, container, false);
 
         ListView listView = (ListView) rootView.findViewById(R.id.list);
 
@@ -92,6 +94,10 @@ public class WorldNewsFragment extends Fragment implements LoaderManager.LoaderC
     public void onLoadFinished(@NonNull Loader<List<News>> loader, List<News> news) {
 
         Log.i(LOG_TAG, "TEST: OnLoaderFinished. updating listView UI");
+
+        // Hide loading indicator because the data has been loaded
+        View loadingIndicator = rootView.findViewById(R.id.loading_indicator);
+        loadingIndicator.setVisibility(View.GONE);
 
         mEmptyStateTextView.setText(R.string.no_news);
 

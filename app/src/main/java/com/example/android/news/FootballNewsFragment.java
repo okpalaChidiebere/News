@@ -28,6 +28,8 @@ public class FootballNewsFragment extends Fragment implements LoaderManager.Load
     /** TextView that is displayed when the list is empty */
     private TextView mEmptyStateTextView;
 
+    private View rootView;
+
     private NewsAdapter mAdapter;
 
     private static final String GUARDIAN_REQUEST_URL =
@@ -37,7 +39,7 @@ public class FootballNewsFragment extends Fragment implements LoaderManager.Load
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        View rootView = inflater.inflate(R.layout.news_list_item, container, false);
+        rootView = inflater.inflate(R.layout.news_list_item, container, false);
 
         ListView listView = (ListView) rootView.findViewById(R.id.list);
 
@@ -92,6 +94,10 @@ public class FootballNewsFragment extends Fragment implements LoaderManager.Load
     public void onLoadFinished(@NonNull Loader<List<News>> loader, List<News> news) {
 
         Log.i(LOG_TAG, "TEST: OnLoaderFinished. updating listView UI");
+
+        // Hide loading indicator because the data has been loaded
+        View loadingIndicator = rootView.findViewById(R.id.loading_indicator);
+        loadingIndicator.setVisibility(View.GONE);
 
         mEmptyStateTextView.setText(R.string.no_news);
 
