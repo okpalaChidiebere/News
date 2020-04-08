@@ -13,7 +13,7 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
-import java.util.concurrent.TimeUnit;
+import java.util.Locale;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -21,6 +21,11 @@ import androidx.annotation.Nullable;
 public class NewsAdapter extends ArrayAdapter<News> {
 
     private static final String LOCATION_SEPARATOR = " ";
+
+    private static final int SECOND_MILLIS = 1000;
+    private static final int MINUTE_MILLIS = 60 * SECOND_MILLIS;
+    private static final int HOUR_MILLIS = 60 * MINUTE_MILLIS;
+    private static final int DAY_MILLIS = 24 * HOUR_MILLIS;
 
     public NewsAdapter(Context context, List<News> News){
         super(context, 0, News);
@@ -57,7 +62,7 @@ public class NewsAdapter extends ArrayAdapter<News> {
         return listItemViewRow;
     }
 
-    public String covertTimeToText(String dataDate) {
+    private String covertTimeToText(String dataDate) {
 
         String convTime = null;
 
@@ -65,34 +70,43 @@ public class NewsAdapter extends ArrayAdapter<News> {
         String suffix = "Ago";
 
         try {
-            SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss");
+            SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss", Locale.US);
             Date pasTime = dateFormat.parse(dataDate);
-
             Date nowTime = new Date();
 
-            long dateDiff = nowTime.getTime() - pasTime.getTime();
+            long dateDiff = Math.abs(nowTime.getTime() - pasTime.getTime());
+            //Log.i("pastTime: ",""+dateDiff);
 
-            long second = TimeUnit.MILLISECONDS.toSeconds(dateDiff);
-            long minute = TimeUnit.MILLISECONDS.toMinutes(dateDiff);
-            long hour   = TimeUnit.MILLISECONDS.toHours(dateDiff);
-            long day  = TimeUnit.MILLISECONDS.toDays(dateDiff);
+            int second = (int) (dateDiff / 1000) % 60 ;
+            int minute = (int) ((dateDiff / (1000*60)) % 60);
+            int hour   = (int) ((dateDiff / (1000*60*60)) % 24);
+            int day = (int) (dateDiff / (1000*60*60*24));
 
-            if (second < 60) {
-                convTime = second+" Seconds "+suffix;
-            } else if (minute < 60) {
-                convTime = minute+" Minutes "+suffix;
-            } else if (hour < 24) {
-                convTime = hour+" Hours "+suffix;
-            } else if (day >= 7) {
+            //System.out.println("Day " + day + " Hour " + hour + " Minute " + minute + " Seconds " + second);
+            if (day >= 7) {
                 if (day > 360) {
-                    convTime = (day / 30) + " Years " + suffix;
+                    return (day / 30) + " Years " + suffix;
                 } else if (day > 30) {
-                    convTime = (day / 360) + " Months " + suffix;
+                    return (day / 360) + " Months " + suffix;
                 } else {
-                    convTime = (day / 7) + " Week " + suffix;
+                    return (day / 7) + " Week " + suffix;
                 }
-            } else if (day < 7) {
-                convTime = day+" Days "+suffix;
+            }
+
+            if (dateDiff < MINUTE_MILLIS) {
+                return "just now";
+            } else if (dateDiff < 2 * MINUTE_MILLIS) {
+                return "a minute ago";
+            } else if (dateDiff < 50 * MINUTE_MILLIS) {
+                return dateDiff / MINUTE_MILLIS + " minutes ago";
+            } else if (dateDiff < 90 * MINUTE_MILLIS) {
+                return "an hour ago";
+            } else if (dateDiff < 24 * HOUR_MILLIS) {
+                return dateDiff / HOUR_MILLIS + " hours ago";
+            } else if (dateDiff < 48 * HOUR_MILLIS) {
+                return "yesterday";
+            } else {
+                return dateDiff / DAY_MILLIS + " days ago";
             }
 
         } catch (ParseException e) {
