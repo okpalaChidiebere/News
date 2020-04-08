@@ -8,16 +8,27 @@
     <string name="football_category">Football</string>
     <string name="world_category">World</string>
 
-    <!-- Used to test adapter and page -->
+    <!-- Test Strings -->
     <string name="news_posted_time">2 hours</string>
     <string name="news_section_id">australia-news</string>
     <string name="news_title">Info</string>
     <string name="settings_test_string">we out here settings</string>
+    <!-- End Test Strings -->
 
     <!-- Information for when an empty parse return -->
     <string name="no_news">No News found.</string>
 
     <!-- Error message when there is no internet connectivity [CHAR LIMIT=NONE] -->
     <string name="no_internet_connection">bad server response.</string>
+
+    <!-- Fragment Strings-->
+    <string name="guardian_url_request">https://content.guardianapis.com/search</string>
+    <string name="api_key">api-key</string>
+    <string name="key">9f43069a-520c-4549-937b-c78825908d24</string>
+    <string name="test_onLoaderFinished">TEST: OnLoaderFinished. updating listView UI</string>
+    <string name="section_key">section</string>
+    <string name="section_football">football</string>
+    <string name="section_world">world</string>
+
 
 </resources>

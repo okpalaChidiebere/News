@@ -100,8 +100,8 @@ public class FootballNewsFragment extends Fragment implements LoaderManager.Load
         Uri.Builder uriBuilder = baseUri.buildUpon();
 
         // Append query parameter and its value. For example, the `section=football`
-        uriBuilder.appendQueryParameter("section", "football");
-        uriBuilder.appendQueryParameter("api-key", "9f43069a-520c-4549-937b-c78825908d24");
+        uriBuilder.appendQueryParameter(getString(R.string.section_key), getString(R.string.section_football));
+        uriBuilder.appendQueryParameter(getString(R.string.api_key), getString(R.string.key));
 
         // Create a new loader for the given URL
         //https://content.guardianapis.com/search?section=football&api-key=9f43069a-520c-4549-937b-c78825908d24
@@ -111,7 +111,7 @@ public class FootballNewsFragment extends Fragment implements LoaderManager.Load
     @Override
     public void onLoadFinished(@NonNull Loader<List<News>> loader, List<News> news) {
 
-        Log.i(LOG_TAG, "TEST: OnLoaderFinished. updating listView UI");
+        Log.i(LOG_TAG, getString(R.string.test_onLoaderFinished));
 
         // Hide loading indicator because the data has been loaded
         View loadingIndicator = rootView.findViewById(R.id.loading_indicator);
