@@ -20,16 +20,7 @@ public class FeaturedNewsFragment extends Fragment {
 
         View rootView = inflater.inflate(R.layout.news_list_item, container, false);
 
-        final List<News> news = new ArrayList<News>();
-        news.add(new News("Australia news",
-                "Coronavirus live news: Trump says he won't wear face mask despite new US advice",
-                "2020-04-03T23:33:57Z",
-                "https://www.theguardian.com/world/live/2020/apr/03/coronavirus-update-live-news-usa-uk-spain-italy-china-who-middle-east-spike-world-global-cases-latest-updates"));
-
-        news.add(new News("World news",
-                "Coronavirus live news: Trump says he won't wear face mask despite new US advice",
-                "2020-04-03T23:33:57Z",
-                "https://www.theguardian.com/world/live/2020/apr/03/coronavirus-update-live-news-usa-uk-spain-italy-china-who-middle-east-spike-world-global-cases-latest-updates"));
+        List<News> news = QueryUtils.extractFeatureFromJson();
 
 
         NewsAdapter adapter = new NewsAdapter(getActivity(), news);
