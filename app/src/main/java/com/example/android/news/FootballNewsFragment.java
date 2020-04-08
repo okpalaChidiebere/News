@@ -2,6 +2,7 @@ package com.example.android.news;
 
 import android.net.Uri;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -18,7 +19,9 @@ import androidx.loader.content.Loader;
 
 public class FootballNewsFragment extends Fragment implements LoaderManager.LoaderCallbacks<List<News>> {
 
-    private static final int NEWS_LOADER_ID = 1;
+    private static final int NEWS_LOADER_ID = 2;
+    private static final String LOG_TAG = FootballNewsFragment.class.getName();
+
 
     private NewsAdapter mAdapter;
 
@@ -31,14 +34,13 @@ public class FootballNewsFragment extends Fragment implements LoaderManager.Load
         // Inflate the layout for this fragment
         View rootView = inflater.inflate(R.layout.news_list_item, container, false);
 
-        LoaderManager loaderManager = LoaderManager.getInstance(this);
-        loaderManager.initLoader(NEWS_LOADER_ID, null, this);
-
-
         mAdapter = new NewsAdapter(getActivity(), new ArrayList<News>());
 
         ListView listView = (ListView) rootView.findViewById(R.id.list);
         listView.setAdapter(mAdapter);
+
+        LoaderManager loaderManager = LoaderManager.getInstance(this);
+        loaderManager.initLoader(NEWS_LOADER_ID, null, this);
 
         // Inflate the layout for this fragment
         return rootView;
@@ -65,6 +67,9 @@ public class FootballNewsFragment extends Fragment implements LoaderManager.Load
 
     @Override
     public void onLoadFinished(@NonNull Loader<List<News>> loader, List<News> news) {
+
+        Log.i(LOG_TAG, "TEST: OnLoaderFinished. updating listView UI");
+
         // Clear the adapter of previous news data
         mAdapter.clear();
 

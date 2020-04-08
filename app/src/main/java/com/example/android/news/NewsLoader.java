@@ -1,6 +1,7 @@
 package com.example.android.news;
 
 import android.content.Context;
+import android.util.Log;
 
 import java.util.List;
 
@@ -9,6 +10,7 @@ import androidx.loader.content.AsyncTaskLoader;
 
 public class NewsLoader extends AsyncTaskLoader<List<News>> {
 
+    private static final String LOG_TAG = NewsLoader.class.getName();;
     /** Query URL */
     private String mUrl;
 
@@ -20,6 +22,7 @@ public class NewsLoader extends AsyncTaskLoader<List<News>> {
     @Override
     protected void onStartLoading() {
         forceLoad();
+        Log.i(LOG_TAG, "TEST: OnStartLoading. calling forceLoad to trigger the loadInBackground method");
     }
 
     @Nullable
