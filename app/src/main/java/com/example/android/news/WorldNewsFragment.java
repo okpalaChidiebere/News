@@ -1,11 +1,13 @@
 package com.example.android.news;
 
+import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ListView;
 
 import java.util.ArrayList;
@@ -37,6 +39,20 @@ public class WorldNewsFragment extends Fragment implements LoaderManager.LoaderC
 
         ListView listView = (ListView) rootView.findViewById(R.id.list);
         listView.setAdapter(mAdapter);
+
+        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+
+                News currentNews = mAdapter.getItem(position);
+
+                Uri newsUri = Uri.parse(currentNews.getUrl());
+
+                Intent websiteIntent = new Intent(Intent.ACTION_VIEW, newsUri);
+
+                startActivity(websiteIntent);
+            }
+        });
 
         LoaderManager loaderManager = LoaderManager.getInstance(this);
         loaderManager.initLoader(NEWS_LOADER_ID, null, this);
