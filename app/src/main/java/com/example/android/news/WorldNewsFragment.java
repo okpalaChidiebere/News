@@ -1,5 +1,6 @@
 package com.example.android.news;
 
+import android.net.Uri;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -22,7 +23,7 @@ public class WorldNewsFragment extends Fragment implements LoaderManager.LoaderC
     private NewsAdapter mAdapter;
 
     private static final String GUARDIAN_REQUEST_URL =
-            "https://content.guardianapis.com/search?section=world&api-key=9f43069a-520c-4549-937b-c78825908d24";
+            "https://content.guardianapis.com/search";
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -46,16 +47,28 @@ public class WorldNewsFragment extends Fragment implements LoaderManager.LoaderC
     @NonNull
     @Override
     public Loader<List<News>> onCreateLoader(int id, @Nullable Bundle args) {
+
+        // parse breaks apart the URI string that's passed into its parameter
+        Uri baseUri = Uri.parse(GUARDIAN_REQUEST_URL);
+
+        // buildUpon prepares the baseUri that we just parsed so we can add query parameters to it
+        Uri.Builder uriBuilder = baseUri.buildUpon();
+
+        // Append query parameter and its value. For example, the `section=world`
+        uriBuilder.appendQueryParameter("section", "world");
+        uriBuilder.appendQueryParameter("api-key", "9f43069a-520c-4549-937b-c78825908d24");
+
         // Create a new loader for the given URL
-        return new NewsLoader(getContext(), GUARDIAN_REQUEST_URL);
+        //https://content.guardianapis.com/search?section=world&api-key=9f43069a-520c-4549-937b-c78825908d24
+        return new NewsLoader(getContext(), uriBuilder.toString());
     }
 
     @Override
     public void onLoadFinished(@NonNull Loader<List<News>> loader, List<News> news) {
-        // Clear the adapter of previous earthquake data
+        // Clear the adapter of previous news data
         mAdapter.clear();
 
-        // If there is a valid list of {@link Earthquake}s, then add them to the adapter's
+        // If there is a valid list of {@link News}, then add them to the adapter's
         // data set. This will trigger the ListView to update.
         if (news != null && !news.isEmpty()) {
             mAdapter.addAll(news);
